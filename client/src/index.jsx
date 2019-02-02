@@ -12,27 +12,35 @@ class App extends React.Component {
     };
   }
 
-  search(term) {
-    console.log(`${term} was searched`);
-    $.ajax({
-      url: 'http://localhost:1128/repos',
-      method: 'POST',
-      data: { query: term },
-      success: res => console.log('Server response: ', res),
-      error: err => console.error('Error: ', err)
-    });
-  }
-
-  componentDidMount() {
+  get() {
     $.ajax({
       url: 'http://localhost:1128/repos',
       method: 'GET',
       success: res => {
         console.log('Server response: ', res);
         this.setState({ repos: res });
+        console.log('new state: ', this.state.repos);
       },
       error: err => console.error('Error: ', err)
     });
+  }
+
+  search(term) {
+    console.log(`${term} was searched`);
+    $.ajax({
+      url: 'http://localhost:1128/repos',
+      method: 'POST',
+      data: { query: term },
+      success: res => {
+        console.log('Server response: ', res);
+        this.get();
+      },
+      error: err => console.error('Error: ', err)
+    });
+  }
+
+  componentDidMount() {
+    this.get();
   }
 
   render() {

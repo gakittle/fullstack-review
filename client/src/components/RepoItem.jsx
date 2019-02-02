@@ -7,7 +7,7 @@ var RepoItem = props => {
       <div className="date">
         Updated on {props.repo.updated_at.slice(0, 10)}
       </div>
-      <div className="user">{props.repo.owner_login}</div>
+      <div className="user">by {props.repo.owner_login}</div>
     </div>
   );
 };
