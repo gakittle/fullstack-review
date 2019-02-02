@@ -22,38 +22,57 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = repoData => {
+let save = (repoData, callback) => {
   repoData.forEach(repo => {
     // search by id
-    Repo.find({ id: repo.id }).then(function(oldDoc) {
-      var isUpToDate;
-      if (Object.keys(oldDoc).length > 0) {
-        isUpToDate = true;
-        // console.log('Hmm, maybe a duplicate?');
-        // var oldIsoDate = oldDoc.updated_at;
-        // console.log('oldDoc: ', oldDoc);
-        // var oldDate = new Date(oldIsoDate).getTime();
-        // var isoDate = repo.updated_at;
-        // var date = new Date(isoDate).getTime();
-        // console.log(oldDate, date);
-        // if (oldDate === date) {
-        //   console.log('Yup, thats a duplicate');
-        //   isUpToDate = true;
-        // }
-      }
-      if (!isUpToDate) {
-        var newRepo = new Repo(repo);
-        newRepo.save((err, newRepo) => {
-          if (err) {
-            console.error('Error: ', err);
-          } else {
-            console.log('stored repo');
-          }
-        });
-      }
-    });
+    Repo.find({ id: repo.id })
+      .then(function(oldDoc) {
+        var isUpToDate;
+        if (Object.keys(oldDoc).length > 0) {
+          isUpToDate = true;
+          // console.log('Hmm, maybe a duplicate?');
+          // var oldIsoDate = oldDoc.updated_at;
+          // console.log('oldDoc: ', oldDoc);
+          // var oldDate = new Date(oldIsoDate).getTime();
+          // var isoDate = repo.updated_at;
+          // var date = new Date(isoDate).getTime();
+          // console.log(oldDate, date);
+          // if (oldDate === date) {
+          //   console.log('Yup, thats a duplicate');
+          //   isUpToDate = true;
+          // }
+        }
+        if (!isUpToDate) {
+          var newRepo = new Repo(repo);
+          newRepo.save((err, newRepo) => {
+            if (err) {
+              console.error('Error: ', err);
+            } else {
+              console.log('stored repo');
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Error: ', err);
+      });
     // console.log('Saving repo: ', repo);
   });
 };
 
+let get = (user, callback) => {
+  console.log('user', user);
+  Repo.find({ owner_login: user }).then((err, repos) => {
+    console.log('we got em boys');
+    if (err) {
+      console.error('Error: ', err);
+    } else {
+      return callback(repos);
+    }
+  });
+  // .catch(err => console.error('Error: ', err));
+};
+
 module.exports.save = save;
+module.exports.get = get;
+module.exports.Repo = Repo;

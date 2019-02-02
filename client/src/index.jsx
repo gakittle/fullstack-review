@@ -23,6 +23,16 @@ class App extends React.Component {
     });
   }
 
+  componentDidMount() {
+    $.ajax({
+      url: 'http://localhost:1128/repos',
+      method: 'GET',
+      data: 'iyshao',
+      success: res => console.log('Server response: ', res),
+      error: err => console.error('Error: ', err)
+    });
+  }
+
   render() {
     return (
       <div>
