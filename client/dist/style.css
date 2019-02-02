@@ -1,11 +1,13 @@
 .repo {
-  border: 1px solid gray;
+  border: 1px solid rgb(199, 199, 199);
   width: 500px;
+  padding: 5px 5px;
 }
 
 .user {
   font-style: italic;
   margin-left: 10px;
+  margin-top: 5px;
 }
 
 .date {
