@@ -3,7 +3,7 @@ import React from 'react';
 var RepoItem = props => {
   return (
     <div className="repo">
-      <a href={props.repo.url}>{props.repo.name}</a>
+      <a href={props.repo.html_url}>{props.repo.name}</a>
       <div className="date">
         Updated on {props.repo.updated_at.slice(0, 10)}
       </div>

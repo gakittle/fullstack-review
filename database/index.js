@@ -16,7 +16,7 @@ let repoSchema = mongoose.Schema({
   forks: Number,
   language: String,
   description: String,
-  url: String,
+  html_url: String,
   updated_at: Date
 });
 

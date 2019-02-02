@@ -16,7 +16,7 @@ app.post('/repos', function(req, res) {
   let callback = repos => {
     if (Array.isArray(repos)) {
       var results = repos.map(repo => {
-        const { id, name, url, updated_at } = repo;
+        const { id, name, html_url, updated_at } = repo;
         owner_id = repo.owner.id;
         owner_login = repo.owner.login;
         const result = {
@@ -24,7 +24,7 @@ app.post('/repos', function(req, res) {
           name,
           owner_id,
           owner_login,
-          url,
+          html_url,
           updated_at
         };
         return result;
