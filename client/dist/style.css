@@ -1,0 +1,14 @@
+.repo {
+  border: 1px solid gray;
+  width: 500px;
+}
+
+.user {
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.date {
+  float: right;
+  margin-right: 10px;
+}
