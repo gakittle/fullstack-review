@@ -41,18 +41,14 @@ app.post('/repos', function(req, res) {
 app.get('/repos', function(req, res) {
   console.log('req', req.query);
 
-  Repo.find({}, (err, repos) => {
-    console.log(typeof repos);
-    res.json(repos);
-  });
-  // get(req.query, repos => {
-  //   console.log('GET on out of here');
-  //   res.write(repos);
-  //   res.sendStatus(200);
-  // });
-
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+  Repo.find({})
+    .sort('-updated_at')
+    .exec((err, repos) => {
+      if (err) {
+        console.error(err);
+      }
+      res.send(repos.slice(0, 25));
+    });
 });
 
 let port = 1128;
