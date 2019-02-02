@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { getReposByUsername } = require('../helpers/github.js');
+const { save } = require('../database/index.js');
 
 let app = express();
 
@@ -17,7 +18,6 @@ app.post('/repos', function(req, res) {
       const {
         id,
         name,
-        owner,
         private,
         forks,
         language,
@@ -25,10 +25,13 @@ app.post('/repos', function(req, res) {
         url,
         updated_at
       } = repo;
+      owner_id = repo.owner.id;
+      owner_login = repo.owner.login;
       const result = {
         id,
         name,
-        owner,
+        owner_id,
+        owner_login,
         private,
         forks,
         language,
@@ -38,8 +41,8 @@ app.post('/repos', function(req, res) {
       };
       return result;
     });
-    console.log('Repos from GitHub: ', results, results.length);
-    return results;
+    // console.log('Repos from GitHub: ', results, results.length);
+    save(results);
   };
 
   var repos = getReposByUsername(req.body.query, callback);
